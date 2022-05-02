@@ -7,8 +7,15 @@ public class LoadSceneAsync : MonoBehaviour
 {
     private AsyncOperation _asyncOperation = null;
     [SerializeField] private string SceneToLoad;
-    
-    // Update is called once per frame
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player") _asyncOperation = SceneManager.LoadSceneAsync(SceneToLoad, LoadSceneMode.Additive);
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player") SceneManager.UnloadSceneAsync(SceneToLoad);
+    }
     void Update()
     {
         if (_asyncOperation != null)
@@ -20,10 +27,5 @@ public class LoadSceneAsync : MonoBehaviour
                 _asyncOperation = null;
             }
         }
-    }
-
-    public void LoadScene()
-    {
-        _asyncOperation = SceneManager.LoadSceneAsync(SceneToLoad);
     }
 }

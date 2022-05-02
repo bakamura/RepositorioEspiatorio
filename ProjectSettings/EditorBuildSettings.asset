@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainGame.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/ProjetoTutoria/Scenes/MainMenu.unity
+    guid: d80dfcb4db6a5074fa78e241084c81c7
   - enabled: 1
-    path: Assets/Scenes/Shrine01.unity
-    guid: ce588326ccc7f584889253b037a45b77
+    path: Assets/ProjetoTutoria/Scenes/Teste.unity
+    guid: 0468d574d379dbe4f91f700ead70de92
   - enabled: 1
-    path: Assets/Scenes/Shrine02.unity
-    guid: e1e14891450627141b5850c0225aaa4f
+    path: Assets/ProjetoTutoria/Scenes/VilaLago.unity
+    guid: eb65dfd95cf10f24fbf88614e06bcba2
+  - enabled: 1
+    path: Assets/ProjetoTutoria/Scenes/VilaPraia.unity
+    guid: 86507060cae4cda4e92bccac4c3617b1
   m_configObjects: {}

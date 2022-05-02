@@ -10,23 +10,32 @@ public class MenuScript : MonoBehaviour
     [SerializeField] private CanvasGroup[] Screens;
     [SerializeField] private string MainMenuScene;
     private CanvasGroup currentActiveScene;
+    private string _sceneToOpen;
 
     private void Awake()
     {
-        if (instance == null) instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            if (_sceneToOpen != MainMenuScene)
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
+        }
         else if (instance != this) Destroy(this.gameObject);
     }
-    private void OnLevelWasLoaded(int level)
-    {
-        if (SceneManager.GetActiveScene().name != MainMenuScene)
-        {
-            DontDestroyOnLoad(this.gameObject);
-        }
-    }
+    //private void OnLevelWasLoaded(int level)
+    //{
+    //    if (SceneManager.GetActiveScene().name != MainMenuScene)
+    //    {
+    //        DontDestroyOnLoad(this.gameObject);
+    //    }
+    //}
 
     public void OpenScene(string scene)
     {
-        SceneManager.LoadScene(scene);
+        _sceneToOpen = scene;
+        SceneManager.LoadScene(_sceneToOpen);
         UpdateScreen(null);
     }
 
@@ -53,7 +62,7 @@ public class MenuScript : MonoBehaviour
 
     public void UpdateScreen(CanvasGroup newScreen)
     {
-        if (newScreen = null)
+        if (newScreen == null)
         {
             ContainsCurrentActiveScreen();
         }

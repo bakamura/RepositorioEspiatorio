@@ -6,11 +6,15 @@ using UnityEngine.UI;
 public class LoadingSimbol : MonoBehaviour
 {
     public static LoadingSimbol instance;
-    [SerializeField] private Image _fillImage;
+    private Image _fillImage;
 
     private void Awake()
     {
-        if (instance == null) instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            _fillImage = GetComponent<Image>();
+        }
         else if (instance != this) Destroy(this);
     }
     public void FillImage(float value)
