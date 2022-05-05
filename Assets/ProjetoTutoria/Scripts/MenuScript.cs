@@ -32,11 +32,19 @@ public class MenuScript : MonoBehaviour
     //    }
     //}
 
+    public void VitoryScreen() {
+        UpdateScreen(Screens[1]);
+    }
+
+    public void GameOverScreen() {
+        UpdateScreen(Screens[2]);
+    }
+
     public void OpenScene(string scene)
     {
         _sceneToOpen = scene;
+        if (_sceneToOpen != MainMenuScene) UpdateScreen(null);
         SceneManager.LoadScene(_sceneToOpen);
-        UpdateScreen(null);
     }
 
     private void ContainsCurrentActiveScreen()
@@ -69,9 +77,9 @@ public class MenuScript : MonoBehaviour
         else
         {
             ContainsCurrentActiveScreen();
-            newScreen.alpha = 0;
-            newScreen.blocksRaycasts = false;
-            newScreen.interactable = false;
+            newScreen.alpha = 1;
+            newScreen.blocksRaycasts = true;
+            newScreen.interactable = true;
             currentActiveScene = newScreen;
         }
     }
