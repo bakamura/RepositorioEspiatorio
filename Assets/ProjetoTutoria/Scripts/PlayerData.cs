@@ -4,16 +4,12 @@ using UnityEngine;
 
 public static class PlayerData
 {
-    public static Transform playerPosition;
-    public static bool[] shrinesDone;
+    public static Vector3 playerPosition;
+    public static Dictionary<string, bool> ShrinesDone = new Dictionary<string, bool>();
+    public static int currentShrineID;
 
-    public static void SaveShrine(int shrineID)
+    public static void SavePosition(Vector3 position)
     {
-        shrinesDone[shrineID] = true;
-    }
-
-    public static void SavePosition(Transform transform)
-    {
-        playerPosition = transform;
+        playerPosition = position;
     }
 }
