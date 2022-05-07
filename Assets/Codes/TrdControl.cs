@@ -53,14 +53,7 @@ public class TrdControl : MonoBehaviour
         }
         */
         rdb.isKinematic=false;
-        if (SceneManager.GetActiveScene().name == "MainGame")
-        {
-            if (CommomValues.ShrinePlayerPosition.magnitude > 0)
-            {
-                transform.position = CommomValues.ShrinePlayerPosition;
-            }
-        }
-        
+        if (PlayerData.playerPosition.magnitude > 0) transform.position = PlayerData.playerPosition;                
         StartCoroutine(Idle());
     }
 
