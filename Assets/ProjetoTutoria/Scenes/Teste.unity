@@ -301,7 +301,7 @@ PrefabInstance:
     - target: {fileID: 5226078391448961788, guid: cdfb00d517c0bcc4c92e63fc797da42c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5226078391448961788, guid: cdfb00d517c0bcc4c92e63fc797da42c,
         type: 3}
@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 716355340}
   - component: {fileID: 716355339}
   - component: {fileID: 716355338}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -454,7 +454,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &747930516
 PrefabInstance:
@@ -466,7 +466,7 @@ PrefabInstance:
     - target: {fileID: 4568980974282011942, guid: 251eb8a247c6ff6438561641e12e3b89,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4568980974282011942, guid: 251eb8a247c6ff6438561641e12e3b89,
         type: 3}
@@ -522,6 +522,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Warrior boy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568980975116380813, guid: 251eb8a247c6ff6438561641e12e3b89,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 251eb8a247c6ff6438561641e12e3b89, type: 3}
@@ -728,7 +733,7 @@ Transform:
   m_LocalScale: {x: 1000, y: 1, z: 1000}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1598138932 stripped
 GameObject:

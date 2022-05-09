@@ -19,6 +19,8 @@ public class TrdControl : MonoBehaviour
     bool grab = false;
     FixedJoint grabjoint;
     public GameObject projetil;
+    private bool _isGrounded;
+    [SerializeField] private LayerMask ground;
     public enum States
     {
         Walk,
@@ -84,7 +86,7 @@ public class TrdControl : MonoBehaviour
         {
             ChangeState(States.Spell);
         }
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && _isGrounded)
         {
             ChangeState(States.Jump);
         }
@@ -122,6 +124,7 @@ public class TrdControl : MonoBehaviour
         {
             ikforce = Mathf.Lerp(ikforce, 0, Time.fixedDeltaTime*3);
         }
+        _isGrounded = Physics.Raycast(transform.position, -transform.up, 1f, ground);
     }
 
     public void ChangeState(States myestate)
