@@ -20,6 +20,7 @@ public class TrdControl : MonoBehaviour
     FixedJoint grabjoint;
     public GameObject projetil;
     private bool _isGrounded;
+    
     [SerializeField] private LayerMask ground;
     public enum States
     {
@@ -55,7 +56,10 @@ public class TrdControl : MonoBehaviour
         }
         */
         rdb.isKinematic=false;
-        if (PlayerData.playerPosition.magnitude > 0) transform.position = PlayerData.playerPosition;                
+        if (PlayerData.playerPosition.magnitude > 0 && PlayerData._isReturningToMainScene) {
+            transform.position = PlayerData.playerPosition;
+            PlayerData._isReturningToMainScene = false;
+        }
         StartCoroutine(Idle());
     }
 

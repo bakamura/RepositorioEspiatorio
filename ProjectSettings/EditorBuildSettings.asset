@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ProjetoTutoria/Scenes/VilaPraia.unity
     guid: 86507060cae4cda4e92bccac4c3617b1
+  - enabled: 1
+    path: Assets/ProjetoTutoria/Scenes/TestShrine.unity
+    guid: 5b6cc3facc0bc6840b90a9be7fc8aa50
   m_configObjects: {}

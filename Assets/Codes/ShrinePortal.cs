@@ -12,7 +12,7 @@ public class ShrinePortal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //CommomValues.ShrinePlayerPosition = other.transform.position-other.transform.forward*3;
-            PlayerData.SavePosition(other.transform.position - other.transform.forward * 3);
+            PlayerData.SavePosition(other.transform.position - other.transform.forward * 5);
             StartCoroutine(MyLoadScene());
         }
     }
