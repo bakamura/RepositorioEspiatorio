@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/ProjetoTutoria/Scenes/MainMenu.unity
     guid: d80dfcb4db6a5074fa78e241084c81c7
   - enabled: 1
-    path: Assets/ProjetoTutoria/Scenes/Teste.unity
+    path: Assets/ProjetoTutoria/Scenes/CenarioPrincipal.unity
     guid: 0468d574d379dbe4f91f700ead70de92
   - enabled: 1
     path: Assets/ProjetoTutoria/Scenes/VilaLago.unity
@@ -18,6 +18,15 @@ EditorBuildSettings:
     path: Assets/ProjetoTutoria/Scenes/VilaPraia.unity
     guid: 86507060cae4cda4e92bccac4c3617b1
   - enabled: 1
-    path: Assets/ProjetoTutoria/Scenes/TestShrine.unity
-    guid: 5b6cc3facc0bc6840b90a9be7fc8aa50
+    path: Assets/ProjetoTutoria/Scenes/Shrines/Shrine1.unity
+    guid: be5ddcc5ed43224498d0ab69ec10c46a
+  - enabled: 1
+    path: Assets/ProjetoTutoria/Scenes/Shrines/Shrine2.unity
+    guid: 6d71ebee3690e1c45b3a0c17f636ec32
+  - enabled: 1
+    path: Assets/ProjetoTutoria/Scenes/Shrines/Shrine3.unity
+    guid: 34ed9d97dbb06cb46970c4f3ac74b7da
+  - enabled: 1
+    path: Assets/ProjetoTutoria/Scenes/Shrines/Shrine4.unity
+    guid: 6c7d873a8ab3fb54896e477d2e58a8d2
   m_configObjects: {}

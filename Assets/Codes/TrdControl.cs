@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class TrdControl : MonoBehaviour
 {
-    // Start is called before the first frame update
     Rigidbody rdb;
+    [SerializeField] private Transform _raycastPos;
     Vector3 move, rot;
     Animator anim;
     public float forcemove=1000;
@@ -34,6 +34,7 @@ public class TrdControl : MonoBehaviour
     }
 
     public States state;
+
 
     void Start()
     {
@@ -128,7 +129,7 @@ public class TrdControl : MonoBehaviour
         {
             ikforce = Mathf.Lerp(ikforce, 0, Time.fixedDeltaTime*3);
         }
-        _isGrounded = Physics.Raycast(transform.position, -transform.up, 1f, ground);
+        _isGrounded = Physics.Raycast(_raycastPos.position, -transform.up, 1f, ground);
     }
 
     public void ChangeState(States myestate)

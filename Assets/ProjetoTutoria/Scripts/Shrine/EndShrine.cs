@@ -6,12 +6,11 @@ using UnityEngine.SceneManagement;
 public class EndShrine : MonoBehaviour
 {
     [SerializeField] private string SceneToOpen;
-    [SerializeField] private string ShrineCompleted;
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
-            if (!PlayerData.ShrinesDone.ContainsKey(ShrineCompleted)) PlayerData.ShrinesDone.Add(ShrineCompleted, true);
-            MenuScript.instance.UpdateCheckList(ShrineCompleted);
+            if (!PlayerData.ShrinesDone.ContainsKey(SceneManager.GetActiveScene().name)) PlayerData.ShrinesDone.Add(SceneManager.GetActiveScene().name, true);
+            MenuScript.instance.UpdateCheckList(SceneManager.GetActiveScene().name);
             PlayerData._isReturningToMainScene = true;
             SceneManager.LoadScene(SceneToOpen);
         }

@@ -502,7 +502,7 @@ PrefabInstance:
     - target: {fileID: 1557224469568931851, guid: d366b4283b5379d4888a269ef0c5fcb3,
         type: 3}
       propertyPath: m_Name
-      value: Shrine 1
+      value: Shrine1
       objectReference: {fileID: 0}
     - target: {fileID: 1806013050185770526, guid: d366b4283b5379d4888a269ef0c5fcb3,
         type: 3}
@@ -945,7 +945,7 @@ PrefabInstance:
     - target: {fileID: 1557224469568931851, guid: d366b4283b5379d4888a269ef0c5fcb3,
         type: 3}
       propertyPath: m_Name
-      value: Shrine 3
+      value: Shrine3
       objectReference: {fileID: 0}
     - target: {fileID: 1806013050185770526, guid: d366b4283b5379d4888a269ef0c5fcb3,
         type: 3}
@@ -2024,7 +2024,7 @@ PrefabInstance:
     - target: {fileID: 1557224469568931851, guid: d366b4283b5379d4888a269ef0c5fcb3,
         type: 3}
       propertyPath: m_Name
-      value: Shrine 2
+      value: Shrine2
       objectReference: {fileID: 0}
     - target: {fileID: 1806013050185770526, guid: d366b4283b5379d4888a269ef0c5fcb3,
         type: 3}
@@ -2454,7 +2454,7 @@ PrefabInstance:
     - target: {fileID: 1557224469568931851, guid: d366b4283b5379d4888a269ef0c5fcb3,
         type: 3}
       propertyPath: m_Name
-      value: Shrine 4
+      value: Shrine4
       objectReference: {fileID: 0}
     - target: {fileID: 1806013050185770526, guid: d366b4283b5379d4888a269ef0c5fcb3,
         type: 3}
@@ -2938,7 +2938,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Teste
+          m_StringArgument: CenarioPrincipal
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2123584766
