@@ -27,7 +27,7 @@ public class IAStarFPS : MonoBehaviour {
     public States state;
     public float knockbackForce;
     [SerializeField] private float _actionRange;
-    public bool _isAgressive;
+    [HideInInspector] public bool _isAgressive;
     [SerializeField, Tooltip("y = z, x = x")] private Vector2 _wanderingRange;
     [SerializeField] private GameObject _explosionParticle;
     private Vector3 _currentTargetPoint;
@@ -35,6 +35,7 @@ public class IAStarFPS : MonoBehaviour {
 
     private void Awake() {
         UpdateTargetPoint();
+        if (enemyType != EnemyTypes.passive && enemyType != EnemyTypes.wandering) _isAgressive = true;
     }
 
     // Update is called once per frame
@@ -88,6 +89,7 @@ public class IAStarFPS : MonoBehaviour {
 
     public void Dead() {
         state = States.dead;
+        PlayerData.UpdateTPPowerUps(1);
     }
 
 
@@ -105,7 +107,7 @@ public class IAStarFPS : MonoBehaviour {
                     break;
                 case EnemyTypes.kamikaze:
                     //MenuScript.instance.GameOverScreen();
-                    GameObject part =  Instantiate(_explosionParticle, transform.position, Quaternion.identity);
+                    GameObject part = Instantiate(_explosionParticle, transform.position, Quaternion.identity);
                     part.transform.parent = null;
                     this.gameObject.SetActive(false);
                     break;

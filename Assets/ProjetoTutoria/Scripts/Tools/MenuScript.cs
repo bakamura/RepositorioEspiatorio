@@ -24,6 +24,7 @@ public class MenuScript : MonoBehaviour {
 
     private void Update() {
         if (Input.GetButtonDown("ShrineList")) UpdateScreen(Screens[3]);
+        if (Input.GetKeyDown(KeyCode.T)) UpdateScreen(Screens[4]);
     }
 
     public void VitoryScreen() {
@@ -58,10 +59,10 @@ public class MenuScript : MonoBehaviour {
     }
 
     public void UpdateScreen(CanvasGroup newScreen) {
-        if (newScreen == null || newScreen == currentActiveScene) {
+        if (newScreen == null || newScreen == currentActiveScene) { // deactivates HUD
             ContainsCurrentActiveScreen();
         }
-        else {
+        else { // deactivates HUD and activates other HUD
             ContainsCurrentActiveScreen();
             newScreen.alpha = 1;
             newScreen.blocksRaycasts = true;

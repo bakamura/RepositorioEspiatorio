@@ -23,7 +23,7 @@ public class SwordImpact : MonoBehaviour
     {
         spark.transform.position = collision.contacts[0].point;
         spark.Emit(30);
-        print(collision.collider.name);
+        //print(collision.collider.name);
         metal.Play();
         //collision.collider.SendMessage("ExplosionDamage", SendMessageOptions.DontRequireReceiver);
     }

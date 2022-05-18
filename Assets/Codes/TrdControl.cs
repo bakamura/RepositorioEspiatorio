@@ -20,6 +20,7 @@ public class TrdControl : MonoBehaviour
     FixedJoint grabjoint;
     public GameObject projetil;
     private bool _isGrounded;
+    [HideInInspector] public static Transform playerTransform;
     
     [SerializeField] private LayerMask ground;
     public enum States
@@ -35,6 +36,9 @@ public class TrdControl : MonoBehaviour
 
     public States state;
 
+    private void Awake() {
+        playerTransform = transform;
+    }
 
     void Start()
     {
