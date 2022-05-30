@@ -28,9 +28,11 @@ public class IAStarFPS : MonoBehaviour {
     public float knockbackForce;
     [SerializeField] private float _actionRange;
     [HideInInspector] public bool _isAgressive;
+    [HideInInspector] public bool isActive;
     [SerializeField, Tooltip("y = z, x = x")] private Vector2 _wanderingRange;
     [SerializeField] private GameObject _explosionParticle;
     private Vector3 _currentTargetPoint;
+    private Coroutine deactivating = null;
 
 
     private void Awake() {
@@ -137,11 +139,18 @@ public class IAStarFPS : MonoBehaviour {
         anim.SetBool("Attack", false);
         anim.SetBool("Dead", true);
         anim.SetBool("Damage", false);
+        if (deactivating == null) deactivating = StartCoroutine(Activate(false, 1));
     }
 
     void DamageState() {
         agent.isStopped = true;
         anim.SetBool("Damage", true);
+    }
+
+    public IEnumerator Activate(bool state, float delay) {
+        yield return new WaitForSeconds(delay);
+        isActive = state;
+        this.gameObject.SetActive(state);
     }
 
     private void OnDrawGizmosSelected() {
