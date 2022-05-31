@@ -10,7 +10,7 @@ public class IABoss : MonoBehaviour {
     [SerializeField] private float minAttackInterval = 1f;
     [SerializeField] private float attackIntervalReduction = .2f;
     [SerializeField] private float rotationSpeed;
-    [SerializeField, Tooltip("minion, shockwave, laser, explosion, bullet")] private GameObject[] attackPrefabs = new GameObject[5]; 
+    [SerializeField, Tooltip("minion, shockwave, laser, explosion, bullet")] private GameObject[] attackPrefabs = new GameObject[5];
     [SerializeField, Tooltip("minion, shockwave, laser, explosion, bullet")] private sbyte[] maxAttackAmounts = new sbyte[5];
     [SerializeField] private Transform[] minionsSpawnPoint;
     [SerializeField] private Transform[] laserSpawnPoint;
@@ -19,11 +19,11 @@ public class IABoss : MonoBehaviour {
     private Animator anim;
     private SkinnedMeshRenderer render;
     private Coroutine currentAttack = null;
-    private readonly List<IAStarFPS> minionsList = new List<IAStarFPS>();
-    private readonly List<ShockWave> shockwaveList = new List<ShockWave>();
-    private readonly List<Laser> laserList = new List<Laser>();
-    private readonly List<Explosion> explosionList = new List<Explosion>();
-    private readonly List<Bullet> bulletList = new List<Bullet>();
+    private readonly List<GameObject> minionsList = new List<GameObject>();
+    private readonly List<GameObject> shockwaveList = new List<GameObject>();
+    private readonly List<GameObject> laserList = new List<GameObject>();
+    private readonly List<GameObject> explosionList = new List<GameObject>();
+    private readonly List<GameObject> bulletList = new List<GameObject>();
     private Vector3 currentMovepoint = Vector3.zero;
 
     public enum AttackPaterns {
@@ -43,29 +43,24 @@ public class IABoss : MonoBehaviour {
     }
     private void Start() {
         for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.sumon]; i++) {
-            IAStarFPS enemy = Instantiate(attackPrefabs[(int)AttackPaterns.sumon], transform.position + new Vector3(0, -1000, 0), Quaternion.identity).GetComponent<IAStarFPS>();
+            GameObject enemy = Instantiate(attackPrefabs[(int)AttackPaterns.sumon], transform.position + new Vector3(0, -1000, 0), Quaternion.identity);
             minionsList.Add(enemy);
-            StartCoroutine(enemy.Activate(false, 0));
         }
-        for(int i = 0;i < maxAttackAmounts[(int)AttackPaterns.shockwave];i++) {
-            ShockWave attack = Instantiate(attackPrefabs[(int)AttackPaterns.shockwave], transform.position + new Vector3(0, -1000, 0), Quaternion.identity).GetComponentInChildren<ShockWave>(); 
+        for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.shockwave]; i++) {
+            GameObject attack = Instantiate(attackPrefabs[(int)AttackPaterns.shockwave], transform.position + new Vector3(0, -1000, 0), Quaternion.identity);
             shockwaveList.Add(attack);
-            StartCoroutine(attack.Activate(false, 0));
         }
         for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.laser]; i++) {
-            Laser attack = Instantiate(attackPrefabs[(int)AttackPaterns.laser], transform.position + new Vector3(0, -1000, 0), Quaternion.identity).GetComponent<Laser>();
+            GameObject attack = Instantiate(attackPrefabs[(int)AttackPaterns.laser], transform.position + new Vector3(0, -1000, 0), Quaternion.identity);
             laserList.Add(attack);
-            attack.Activate(false);
         }
         for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.explosion]; i++) {
-            Explosion attack = Instantiate(attackPrefabs[(int)AttackPaterns.explosion], transform.position + new Vector3(0, -1000, 0), Quaternion.identity).GetComponent<Explosion>();
+            GameObject attack = Instantiate(attackPrefabs[(int)AttackPaterns.explosion], transform.position + new Vector3(0, -1000, 0), Quaternion.identity);
             explosionList.Add(attack);
-            attack.Activate(false, target.transform.position);
         }
         for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.shoot]; i++) {
-            Bullet attack = Instantiate(attackPrefabs[(int)AttackPaterns.shoot], transform.position + new Vector3(0, -1000, 0), Quaternion.identity).GetComponent<Bullet>();
+            GameObject attack = Instantiate(attackPrefabs[(int)AttackPaterns.shoot], transform.position + new Vector3(0, -1000, 0), Quaternion.identity);
             bulletList.Add(attack);
-            attack.Activate(false, target.transform.position, target.transform);
         }
     }
     private void Update() {
@@ -100,26 +95,26 @@ public class IABoss : MonoBehaviour {
         if (currentAttack == null) {
             switch (AttackPatern) {
                 case AttackPaterns.sumon:
-                    currentAttack = StartCoroutine(SumonMinionsAttack());
+                    currentAttack = StartCoroutine(ManipulateObject(AttackPaterns.sumon, minionsList));//StartCoroutine(SumonMinionsAttack());
                     break;
                 case AttackPaterns.shockwave:
-                    currentAttack = StartCoroutine(ShockWaveAttack());
+                    currentAttack = StartCoroutine(ManipulateObject(AttackPaterns.shockwave, shockwaveList));//StartCoroutine(ShockWaveAttack());
                     break;
                 case AttackPaterns.laser:
-                    currentAttack = StartCoroutine(Laser());
+                    currentAttack = StartCoroutine(ManipulateObject(AttackPaterns.laser, laserList));//StartCoroutine(Laser());
                     break;
                 case AttackPaterns.explosion:
-                    currentAttack = StartCoroutine(Explosion());
+                    currentAttack = StartCoroutine(ManipulateObject(AttackPaterns.explosion, explosionList));//StartCoroutine(Explosion());
                     break;
                 case AttackPaterns.shoot:
-                    currentAttack = StartCoroutine(Shoot());
+                    currentAttack = StartCoroutine(ManipulateObject(AttackPaterns.shoot, bulletList));//StartCoroutine(Shoot());
                     break;
                 case AttackPaterns.movement:
                     Movement();
                     break;
             }
         }
-        if (currentMovepoint != Vector3.zero) LookAtTarget();
+        if (currentMovepoint == Vector3.zero) LookAtTarget();
     }
     void ChangeState(bool starMovment) {
         if (!starMovment) {
@@ -158,7 +153,7 @@ public class IABoss : MonoBehaviour {
             agent.destination = currentMovepoint;
         }
         else {
-            if (Vector3.Distance(transform.position, currentMovepoint) <= agent.height/2 * transform.localScale.magnitude) {
+            if (Vector3.Distance(transform.position, currentMovepoint) <= agent.height / 2 * transform.localScale.magnitude) {
                 currentMovepoint = Vector3.zero;
                 ChangeState(false);
             }
@@ -169,15 +164,19 @@ public class IABoss : MonoBehaviour {
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), Time.deltaTime * rotationSpeed);
     }
 
-    IEnumerator ManipulateObject(AttackPaterns attakType, List<GameObject> attackPollingList, Transform[] spawnPoints) {
+    IEnumerator ManipulateObject(AttackPaterns attakType, List<GameObject> attackPollingList) {
         for (int i = 0; i < maxAttackAmounts[(int)attakType]; i++) {
             bool spawnSomething = false;
             foreach (GameObject attack in attackPollingList) {
                 if (!attack.GetComponent<IObjectPollingManager>().IsActive) {
                     anim.SetBool("Attack", true);
                     anim.SetBool("Damage", false);
-                    SetPosition(attack, attakType, spawnPoints);
-                    StartCoroutine(attack.GetComponent<IObjectPollingManager>().Activate(true, 0)); 
+                    SetPosition(attack, attakType);
+                    float[] position = new float[3];
+                    position.SetValue(target.transform.position.x, 0);
+                    position.SetValue(target.transform.position.y, 1);
+                    position.SetValue(target.transform.position.z, 2);
+                    StartCoroutine(attack.GetComponent<IObjectPollingManager>().Activate(true, 0, position, target));
                     spawnSomething = true;
                     break;
                 }
@@ -187,115 +186,115 @@ public class IABoss : MonoBehaviour {
         }
         ChangeState(true);
     }
-    private void SetPosition(GameObject attack ,AttackPaterns attakType, Transform[] spawnPoints) {
+    private void SetPosition(GameObject attack, AttackPaterns attakType) {
         switch (attakType) {
             case AttackPaterns.sumon:
-                attack.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+                attack.transform.position = minionsSpawnPoint[Random.Range(0, minionsSpawnPoint.Length)].position;
                 break;
             case AttackPaterns.shockwave:
-                attack.transform.position = transform.position - new Vector3(0, agent.height / 2 * transform.localScale.magnitude, 0);
+                attack.transform.position = transform.position - new Vector3(0, agent.height / 2 * transform.localScale.magnitude/2, 0);
                 break;
             case AttackPaterns.laser:
-                int index = Random.Range(0, spawnPoints.Length);
-                attack.transform.SetPositionAndRotation(spawnPoints[index].position, spawnPoints[index].rotation);
+                int index = Random.Range(0, laserSpawnPoint.Length);
+                attack.transform.SetPositionAndRotation(laserSpawnPoint[index].position, laserSpawnPoint[index].rotation);
                 break;
             case AttackPaterns atk when (atk == AttackPaterns.explosion || atk == AttackPaterns.shoot):
                 attack.transform.position = bulletSpawnPoint.position;
                 break;
         }
     }
-    IEnumerator SumonMinionsAttack() {
-        for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.sumon]; i++) {
-            bool spawnSomething = false;
-            foreach (IAStarFPS enemy in minionsList) {
-                if (!enemy.isActive) {
-                    anim.SetBool("Attack", true);
-                    anim.SetBool("Damage", false);
-                    enemy.transform.position = minionsSpawnPoint[Random.Range(0, minionsSpawnPoint.Length)].position;
-                    StartCoroutine(enemy.Activate(true, 0, target));
-                    spawnSomething = true;
-                    break;
-                }
-            }
-            if (!spawnSomething) break;
-            yield return new WaitForSeconds(attackInterval);
-        }
-        ChangeState(true);
-    }
-    IEnumerator ShockWaveAttack() {
-        for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.shockwave]; i++) {
-            bool spawnSomething = false;
-            anim.SetBool("Attack", true);
-            anim.SetBool("Damage", false);
-            yield return new WaitForSeconds(1f);
-            foreach (ShockWave attack in shockwaveList) {
-                if (!attack.isActive) {
-                    spawnSomething = true;
-                    attack.transform.position = transform.position - new Vector3(0, agent.height / 2 * transform.localScale.magnitude, 0);
-                    //attack.Activate(true);
-                    break;
-                }
-            }
-            if (!spawnSomething) break;
-            yield return new WaitForSeconds(attackInterval);
-        }
-        ChangeState(true);
-    }
-    IEnumerator Laser() {
-        for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.laser]; i++) {
-            bool spawnSomething = false;
-            foreach (Laser attack in laserList) {
-                if (!attack.isActive) {
-                    anim.SetBool("Attack", true);
-                    anim.SetBool("Damage", false);
-                    int index = Random.Range(0, laserSpawnPoint.Length);
-                    attack.transform.SetPositionAndRotation(laserSpawnPoint[index].position, laserSpawnPoint[index].rotation);
-                    attack.Activate(true);
-                    spawnSomething = true;
-                    break;
-                }
-            }
-            if (!spawnSomething) break;
-            yield return new WaitForSeconds(attackInterval);
-        }
-        ChangeState(true);
-    }
-    IEnumerator Explosion() {
-        for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.explosion]; i++) {
-            bool spawnSomething = false;
-            anim.SetBool("Attack", true);
-            anim.SetBool("Damage", false);
-            yield return new WaitForSeconds(1f);
-            foreach (Explosion attack in explosionList) {
-                if (!attack.isActive) {
-                    spawnSomething = true;
-                    attack.transform.position = bulletSpawnPoint.position;
-                    attack.Activate(true, (target.transform.position - bulletSpawnPoint.position).normalized);
-                    break;
-                }
-            }
-            if (!spawnSomething) break;
-            yield return new WaitForSeconds(attackInterval);
-        }
-        ChangeState(true);
-    }
-    IEnumerator Shoot() {
-        for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.shoot]; i++) {
-            bool spawnSomething = false;
-            anim.SetBool("Attack", true);
-            anim.SetBool("Damage", false);
-            yield return new WaitForSeconds(1f);
-            foreach (Bullet attack in bulletList) {
-                if (!attack.isActive) {
-                    spawnSomething = true;
-                    attack.transform.position = bulletSpawnPoint.position;
-                    attack.Activate(true, (target.transform.position - bulletSpawnPoint.position).normalized, target.transform);
-                    break;
-                }
-            }
-            if (!spawnSomething) break;
-            yield return new WaitForSeconds(attackInterval);
-        }
-        ChangeState(true);
-    }
+    //IEnumerator SumonMinionsAttack() {
+    //    for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.sumon]; i++) {
+    //        bool spawnSomething = false;
+    //        foreach (IAStarFPS enemy in minionsList) {
+    //            if (!enemy.isActive) {
+    //                anim.SetBool("Attack", true);
+    //                anim.SetBool("Damage", false);
+    //                enemy.transform.position = minionsSpawnPoint[Random.Range(0, minionsSpawnPoint.Length)].position;
+    //                StartCoroutine(enemy.Activate(true, 0, target));
+    //                spawnSomething = true;
+    //                break;
+    //            }
+    //        }
+    //        if (!spawnSomething) break;
+    //        yield return new WaitForSeconds(attackInterval);
+    //    }
+    //    ChangeState(true);
+    //}
+    //IEnumerator ShockWaveAttack() {
+    //    for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.shockwave]; i++) {
+    //        bool spawnSomething = false;
+    //        anim.SetBool("Attack", true);
+    //        anim.SetBool("Damage", false);
+    //        yield return new WaitForSeconds(1f);
+    //        foreach (ShockWave attack in shockwaveList) {
+    //            if (!attack.isActive) {
+    //                spawnSomething = true;
+    //                attack.transform.position = transform.position - new Vector3(0, agent.height / 2 * transform.localScale.magnitude, 0);
+    //                //attack.Activate(true);
+    //                break;
+    //            }
+    //        }
+    //        if (!spawnSomething) break;
+    //        yield return new WaitForSeconds(attackInterval);
+    //    }
+    //    ChangeState(true);
+    //}
+    //IEnumerator Laser() {
+    //    for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.laser]; i++) {
+    //        bool spawnSomething = false;
+    //        foreach (Laser attack in laserList) {
+    //            if (!attack.isActive) {
+    //                anim.SetBool("Attack", true);
+    //                anim.SetBool("Damage", false);
+    //                int index = Random.Range(0, laserSpawnPoint.Length);
+    //                attack.transform.SetPositionAndRotation(laserSpawnPoint[index].position, laserSpawnPoint[index].rotation);
+    //                attack.Activate(true);
+    //                spawnSomething = true;
+    //                break;
+    //            }
+    //        }
+    //        if (!spawnSomething) break;
+    //        yield return new WaitForSeconds(attackInterval);
+    //    }
+    //    ChangeState(true);
+    //}
+    //IEnumerator Explosion() {
+    //    for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.explosion]; i++) {
+    //        bool spawnSomething = false;
+    //        anim.SetBool("Attack", true);
+    //        anim.SetBool("Damage", false);
+    //        yield return new WaitForSeconds(1f);
+    //        foreach (Explosion attack in explosionList) {
+    //            if (!attack.isActive) {
+    //                spawnSomething = true;
+    //                attack.transform.position = bulletSpawnPoint.position;
+    //                attack.Activate(true, (target.transform.position - bulletSpawnPoint.position).normalized);
+    //                break;
+    //            }
+    //        }
+    //        if (!spawnSomething) break;
+    //        yield return new WaitForSeconds(attackInterval);
+    //    }
+    //    ChangeState(true);
+    //}
+    //IEnumerator Shoot() {
+    //    for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.shoot]; i++) {
+    //        bool spawnSomething = false;
+    //        anim.SetBool("Attack", true);
+    //        anim.SetBool("Damage", false);
+    //        yield return new WaitForSeconds(1f);
+    //        foreach (Bullet attack in bulletList) {
+    //            if (!attack.isActive) {
+    //                spawnSomething = true;
+    //                attack.transform.position = bulletSpawnPoint.position;
+    //                attack.Activate(true, (target.transform.position - bulletSpawnPoint.position).normalized, target.transform);
+    //                break;
+    //            }
+    //        }
+    //        if (!spawnSomething) break;
+    //        yield return new WaitForSeconds(attackInterval);
+    //    }
+    //    ChangeState(true);
+    //}
 }

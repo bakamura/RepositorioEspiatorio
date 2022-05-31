@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2885572901923224108
 Transform:
   m_ObjectHideFlags: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
   duration: 5
   knockback: 100
   startDelay: 1.5
-  isActive: 0
+  hitbox: {fileID: 6664422957215775221}
 --- !u!65 &6664422957215775221
 BoxCollider:
   m_ObjectHideFlags: 0

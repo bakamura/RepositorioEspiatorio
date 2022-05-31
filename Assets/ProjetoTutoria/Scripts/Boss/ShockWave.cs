@@ -5,9 +5,9 @@ using UnityEngine;
 public class ShockWave : MonoBehaviour, IObjectPollingManager {
     [SerializeField] private float sizeIncrease;
     [SerializeField] private float duration;
-    [SerializeField] private float knockback;
+    //[SerializeField] private float knockback;
     private float currentDuration;
-    [HideInInspector] public bool isActive;
+    private bool isActive;
 
     public bool IsActive { get { return isActive; } set { IsActive = isActive; } }
 
@@ -17,30 +17,15 @@ public class ShockWave : MonoBehaviour, IObjectPollingManager {
         currentDuration += Time.deltaTime;
         if (currentDuration >= duration) StartCoroutine(Activate(false, 0));
     }
-    private void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.CompareTag("Player")) collision.rigidbody.AddForce((collision.transform.position - transform.position).normalized * knockback, ForceMode.Impulse);
-    }
+    //private void OnCollisionEnter(Collision collision) {
+    //    if (collision.gameObject.CompareTag("Player")) collision.rigidbody.AddForce((collision.transform.position - transform.position).normalized * knockback, ForceMode.Impulse);
+    //}
 
-    public IEnumerator Activate(bool state, float delay) {
+    public IEnumerator Activate(bool state, float delay, float[] targetLocation = null, GameObject targetRef = null) {
         yield return new WaitForSeconds(delay);
         transform.localScale = new Vector3(0, transform.lossyScale.y, 0);
         isActive = state;
         currentDuration = 0;
         this.gameObject.SetActive(state);
     }
-
-    //public void Activate(bool state) {
-    //    transform.localScale = new Vector3(0, transform.lossyScale.y, 0);
-    //    isActive = state;
-    //    currentDuration = 0;
-    //    this.gameObject.SetActive(state);
-    //}
-
-    //public IEnumerator Activate(bool state, float delay) {
-    //    yield return new WaitForSeconds(delay);
-    //    transform.localScale = new Vector3(0, transform.lossyScale.y, 0);
-    //    isActive = state;
-    //    currentDuration = 0;
-    //    this.gameObject.SetActive(state);
-    //}
 }

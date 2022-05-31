@@ -389,6 +389,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1551346184, guid: 65c9400e747142149ac903ff63f5db6c, type: 3}
     - {fileID: 2147066799, guid: 65c9400e747142149ac903ff63f5db6c, type: 3}
+    - {fileID: 2147066797, guid: 65c9400e747142149ac903ff63f5db6c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 65c9400e747142149ac903ff63f5db6c, type: 3}
 --- !u!1 &4103214054224780024 stripped
 GameObject:
@@ -422,7 +423,7 @@ MonoBehaviour:
   attackInterval: 3
   minAttackInterval: 1
   attackIntervalReduction: 0.2
-  rotationSpeed: 0
+  rotationSpeed: 5
   attackPrefabs:
   - {fileID: 53752509184407886, guid: 9492983e3bd332944a2221256abba80e, type: 3}
   - {fileID: 4145838299566440563, guid: 652f3d04d55cf7d4896bc955207fd4ba, type: 3}

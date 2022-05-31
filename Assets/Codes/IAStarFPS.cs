@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class IAStarFPS : MonoBehaviour {
+public class IAStarFPS : MonoBehaviour, IObjectPollingManager {
     public GameObject target;
     public NavMeshAgent agent;
     public Animator anim;
@@ -26,13 +26,14 @@ public class IAStarFPS : MonoBehaviour {
     public EnemyTypes enemyType;
     public States state;
     public float knockbackForce;
-    [SerializeField] private float _actionRange;
+    private bool isActive;
     [HideInInspector] public bool _isAgressive;
-    [HideInInspector] public bool isActive;
+    [SerializeField] private float _actionRange;
     [SerializeField, Tooltip("y = z, x = x")] private Vector2 _wanderingRange;
     [SerializeField] private GameObject _explosionParticle;
     private Vector3 _currentTargetPoint;
     private Coroutine deactivating = null;
+    public bool IsActive { get { return isActive; } set { IsActive = isActive; } }
 
 
     private void Awake() {
@@ -147,17 +148,17 @@ public class IAStarFPS : MonoBehaviour {
         anim.SetBool("Damage", true);
     }
 
-    public IEnumerator Activate(bool state, float delay, GameObject goTowards = null) {
-        yield return new WaitForSeconds(delay);
-        target = goTowards;
-        isActive = state;
-        this.gameObject.SetActive(state);
-    }
-
     private void OnDrawGizmosSelected() {
         if (UnityEditor.EditorApplication.isPlaying) {
             Gizmos.color = Color.red;
             Gizmos.DrawCube(_currentTargetPoint, new Vector3(.1f, .1f, .1f));
         }
+    }
+
+    public IEnumerator Activate(bool state, float delay, float[] targetLocation = null, GameObject targetRef = null) {
+        yield return new WaitForSeconds(delay);
+        if (targetRef != null) target = targetRef;
+        isActive = state;
+        this.gameObject.SetActive(state);
     }
 }
