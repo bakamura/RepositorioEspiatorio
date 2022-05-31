@@ -50,7 +50,7 @@ public class IABoss : MonoBehaviour {
         for(int i = 0;i < maxAttackAmounts[(int)AttackPaterns.shockwave];i++) {
             ShockWave attack = Instantiate(attackPrefabs[(int)AttackPaterns.shockwave], transform.position + new Vector3(0, -1000, 0), Quaternion.identity).GetComponentInChildren<ShockWave>(); 
             shockwaveList.Add(attack);
-            attack.Activate(false);
+            StartCoroutine(attack.Activate(false, 0));
         }
         for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.laser]; i++) {
             Laser attack = Instantiate(attackPrefabs[(int)AttackPaterns.laser], transform.position + new Vector3(0, -1000, 0), Quaternion.identity).GetComponent<Laser>();
@@ -169,27 +169,41 @@ public class IABoss : MonoBehaviour {
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), Time.deltaTime * rotationSpeed);
     }
 
-    //IEnumerator ManipulateObject(AttackPaterns attakType, List<T> attackPollingList, Transform[] spawnPoints) {
-    //    for (int i = 0; i < maxAttackAmounts[(int)attakType]; i++) {
-    //        bool spawnSomething = false;
-    //        for (int j = 0; j < attackPollingList.Count; j++) {
-    //            if (!attackPollingList[j])
-    //        }
-    //        foreach (IAStarFPS enemy in minionsList) {
-    //            if (!enemy.isActive) {
-    //                anim.SetBool("Attack", true);
-    //                anim.SetBool("Damage", false);
-    //                enemy.transform.position = minionsSpawnPoint[Random.Range(0, spawnPoints.Length)].position;
-    //                StartCoroutine(enemy.Activate(true, 0));
-    //                spawnSomething = true;
-    //                break;
-    //            }
-    //        }
-    //        if (!spawnSomething) break;
-    //        yield return new WaitForSeconds(attackInterval);
-    //    }
-    //    ChangeState(true);
-    //}
+    IEnumerator ManipulateObject(AttackPaterns attakType, List<GameObject> attackPollingList, Transform[] spawnPoints) {
+        for (int i = 0; i < maxAttackAmounts[(int)attakType]; i++) {
+            bool spawnSomething = false;
+            foreach (GameObject attack in attackPollingList) {
+                if (!attack.GetComponent<IObjectPollingManager>().IsActive) {
+                    anim.SetBool("Attack", true);
+                    anim.SetBool("Damage", false);
+                    SetPosition(attack, attakType, spawnPoints);
+                    StartCoroutine(attack.GetComponent<IObjectPollingManager>().Activate(true, 0)); 
+                    spawnSomething = true;
+                    break;
+                }
+            }
+            if (!spawnSomething) break;
+            yield return new WaitForSeconds(attackInterval);
+        }
+        ChangeState(true);
+    }
+    private void SetPosition(GameObject attack ,AttackPaterns attakType, Transform[] spawnPoints) {
+        switch (attakType) {
+            case AttackPaterns.sumon:
+                attack.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+                break;
+            case AttackPaterns.shockwave:
+                attack.transform.position = transform.position - new Vector3(0, agent.height / 2 * transform.localScale.magnitude, 0);
+                break;
+            case AttackPaterns.laser:
+                int index = Random.Range(0, spawnPoints.Length);
+                attack.transform.SetPositionAndRotation(spawnPoints[index].position, spawnPoints[index].rotation);
+                break;
+            case AttackPaterns atk when (atk == AttackPaterns.explosion || atk == AttackPaterns.shoot):
+                attack.transform.position = bulletSpawnPoint.position;
+                break;
+        }
+    }
     IEnumerator SumonMinionsAttack() {
         for (int i = 0; i < maxAttackAmounts[(int)AttackPaterns.sumon]; i++) {
             bool spawnSomething = false;
@@ -218,7 +232,7 @@ public class IABoss : MonoBehaviour {
                 if (!attack.isActive) {
                     spawnSomething = true;
                     attack.transform.position = transform.position - new Vector3(0, agent.height / 2 * transform.localScale.magnitude, 0);
-                    attack.Activate(true);
+                    //attack.Activate(true);
                     break;
                 }
             }
