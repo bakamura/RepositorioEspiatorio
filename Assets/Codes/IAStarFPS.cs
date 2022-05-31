@@ -147,8 +147,9 @@ public class IAStarFPS : MonoBehaviour {
         anim.SetBool("Damage", true);
     }
 
-    public IEnumerator Activate(bool state, float delay) {
+    public IEnumerator Activate(bool state, float delay, GameObject goTowards = null) {
         yield return new WaitForSeconds(delay);
+        target = goTowards;
         isActive = state;
         this.gameObject.SetActive(state);
     }

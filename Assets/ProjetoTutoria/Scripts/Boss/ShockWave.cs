@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShockWave : MonoBehaviour {
+public class ShockWave : MonoBehaviour/*, ObjectPollingManager*/ {
     [SerializeField] private float sizeIncrease;
     [SerializeField] private float duration;
     [SerializeField] private float knockback;
@@ -19,8 +19,17 @@ public class ShockWave : MonoBehaviour {
     }
 
     public void Activate(bool state) {
-        transform.localScale = Vector3.zero;
+        transform.localScale = new Vector3(0, transform.lossyScale.y, 0);
         isActive = state;
+        currentDuration = 0;
         this.gameObject.SetActive(state);
     }
+
+    //public IEnumerator Activate(bool state, float delay, float[] targetPosition = null, Transform targtetTransform = null) {
+    //    yield return new WaitForSeconds(delay);
+    //    transform.localScale = new Vector3(0, transform.lossyScale.y, 0);
+    //    isActive = state;
+    //    currentDuration = 0;
+    //    this.gameObject.SetActive(state);
+    //}
 }
